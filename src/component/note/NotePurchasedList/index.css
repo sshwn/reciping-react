@@ -1,0 +1,16 @@
+.purchasedList {
+    list-style: none;
+    padding: 0;
+}
+.purchasedItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.removeButton {
+    background-color: transparent;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
