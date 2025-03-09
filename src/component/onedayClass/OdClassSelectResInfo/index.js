@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-const BottomSheetContent = () => {
+const BottomSheetContent = ({minSelectableTime, maxSelectableTime, totalParticipants, price}) => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedPeople, setSelectedPeople] = useState(null);
 
   const timeOptions = ["11:00", "12:00", "13:00"];
-  const peopleOptions = [1, 2, 3, 4];
-  const pricePerPerson = 50000; // 금액 예시 (50,000원)
+  const peopleOptions = Array.from({length : totalParticipants}, (_, idx) => idx + 1);
+  const pricePerPerson = price; // 금액 예시 (50,000원)
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);

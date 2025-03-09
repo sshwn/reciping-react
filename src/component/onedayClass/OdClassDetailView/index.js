@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import styled from "@emotion/styled";
 import BottomSheet from "../../bottomSheet/index";
 import useMeasure from "react-use-measure";
 import SelectResInfo from "../OdClassSelectResInfo/index";
+import axios from "axios";
 
 const Background = styled.div`
   display: flex;
@@ -39,42 +40,25 @@ const Content = styled.div`
   padding-bottom: 130px; /* 본문에 스크롤이 생겼을 때 bottom sheet의 헤더에 내용이 가려지는 현상 발생으로 추가 */
 `;
 
-const OdClassDetailViewData = [
-  {
-    id: 1,
-    image: 'https://newsimg.sedaily.com/2022/04/21/264S35NT4X_1.jpg',
-    title: '예약 1',
-    availablePeople: 4,
-    duration: '2시간',
-    pricePerPerson: '50,000원',
-    description: '이곳에서 즐거운 시간을 보낼 수 있습니다.'
-  },
-  {
-    id: 2,
-    image: 'https://newsimg.sedaily.com/2022/04/21/264S35NT4X_1.jpg',
-    title: '예약 2',
-    availablePeople: 2,
-    duration: '1시간 30분',
-    pricePerPerson: '30,000원',
-    description: '이곳에서 특별한 순간을 만들어 보세요.'
-  },
-  {
-    id: 3,
-    image: 'https://newsimg.sedaily.com/2022/04/21/264S35NT4X_1.jpg',
-    title: '예약 3',
-    availablePeople: 6,
-    duration: '3시간',
-    pricePerPerson: '70,000원',
-    description: '가족과 함께 즐기기 좋은 장소입니다.'
-  }
-];
-
 const OdClassDetailView = () => {
   const { id } = useParams();
-  const onedayClass = OdClassDetailViewData.find((item) => item.id === parseInt(id));
+  const [ODClassDetailViewData, setODClassDetailViewData] = useState(null);
+  useEffect(() => {
+    axios.get(`${process.env.BASE_URL}/ODClassList/selectODClassDetail`, {
+      params : {
+        ODClassId : id // 파라미터 값으로 원데이클래스 고유아이디 보냄
+      }
+    })
+    .then((response) => {
+      setODClassDetailViewData(response.data);
+    })
+    .catch((error) => {
+      console.log("데이터 가져오기 실패");
+    })
+  })
   const [viewportRef, { height: viewportHeight }] = useMeasure();
 
-  if (!onedayClass) {
+  if (!ODClassDetailViewData) {
     return <div>예약 정보를 찾을 수 없습니다.</div>;
   }
 
@@ -84,19 +68,24 @@ const OdClassDetailView = () => {
         <Content>
           <div style={{ padding: '20px' }}>
           <img
-            src={onedayClass.image}
-            alt={onedayClass.title}
+            src={ODClassDetailViewData.photoUrl}
+            alt={ODClassDetailViewData.title}
             style={{ width: '100%', height: 'auto', marginBottom: '20px' }}
           />
-          <h2>{onedayClass.title}</h2>
-          <p>{onedayClass.description}</p>
-          <p>예약 가능 인원: {onedayClass.availablePeople}명</p>
-          <p>소요 시간: {onedayClass.duration}</p>
-          <p>인당 금액: {onedayClass.pricePerPerson}</p>
+          <h2>{ODClassDetailViewData.title}</h2>
+          <p>예약 가능 인원: 1 ~ {ODClassDetailViewData.totalParticipants}명</p>
+          <p>소요 시간: {ODClassDetailViewData.requiredTime}</p>
+          <p>인당 금액: {ODClassDetailViewData.price}</p>
+          <p>{ODClassDetailViewData.content}</p>
           </div>
         </Content>
         <BottomSheet viewport={`${viewportHeight}px`}>
-          <SelectResInfo />
+          <SelectResInfo 
+            minSelectableTime={ODClassDetailViewData.minSelectableTime} 
+            maxSelectableTime={ODClassDetailViewData.maxSelectableTime} 
+            totalParticipants={ODClassDetailViewData.totalParticipants}
+            price={ODClassDetailViewData.price} 
+          />
         </BottomSheet>
       </Mobile>
     </Background>
