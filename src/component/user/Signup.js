@@ -43,6 +43,13 @@ const Button = styled.button`
   }
 `;
 
+const LoginButton = styled(Button)`
+  background-color: #008cba;
+  &:hover {
+    background-color: #007bb5;
+  }
+`;
+
 const ErrorMessage = styled.p`
   color: red;
   font-size: 14px;
@@ -82,6 +89,10 @@ const Signup = () => {
         }
     };
 
+    const handleLoginClick = () => {
+        navigate("/login");
+    };
+
     return (
         <Container>
             <h2>회원가입</h2>
@@ -92,6 +103,9 @@ const Signup = () => {
                 <Input type="password" name="password" placeholder="비밀번호" onChange={handleChange} required />
                 <Input type="password" name="confirmPassword" placeholder="비밀번호 확인" onChange={handleChange} required />
                 <Button type="submit">가입하기</Button>
+                <LoginButton type="button" onClick={handleLoginClick}>
+                    로그인 화면으로 이동
+                </LoginButton>
             </Form>
         </Container>
     );

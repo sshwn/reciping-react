@@ -1,3 +1,4 @@
+// 생략된 부분은 기존과 동일합니다.
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -43,6 +44,20 @@ const Button = styled.button`
   }
 `;
 
+const SignupButton = styled(Button)`
+  background-color: #008cba;
+  &:hover {
+    background-color: #007bb5;
+  }
+`;
+
+const FindIdPwdButton = styled(Button)`
+  background-color: #f0ad4e;
+  &:hover {
+    background-color: #ec971f;
+  }
+`;
+
 const ErrorMessage = styled.p`
   color: red;
   font-size: 14px;
@@ -59,7 +74,6 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const res = await axios.get("https://jsonplaceholder.typicode.com/users");
             const user = res.data.find(
@@ -76,6 +90,14 @@ const Login = () => {
         }
     };
 
+    const handleSignupClick = () => {
+        navigate("/signup");
+    };
+
+    const handleFindIdPwdClick = () => {
+        navigate("/find-account");
+    };
+
     return (
         <Container>
             <h2>로그인</h2>
@@ -84,6 +106,12 @@ const Login = () => {
                 <Input type="email" name="email" placeholder="이메일" onChange={handleChange} required />
                 <Input type="password" name="password" placeholder="비밀번호" onChange={handleChange} required />
                 <Button type="submit">로그인</Button>
+                <SignupButton type="button" onClick={handleSignupClick}>
+                    회원가입
+                </SignupButton>
+                <FindIdPwdButton type="button" onClick={handleFindIdPwdClick}>
+                    ID/PW 찾기
+                </FindIdPwdButton>
             </Form>
         </Container>
     );

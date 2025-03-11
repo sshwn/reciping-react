@@ -9,6 +9,7 @@ import OdClassResConfirm from './component/onedayClass/OdClassResConfirm';
 import OdClassResSuccess from './component/onedayClass/OdClassResSuccess';
 import Signup from "./component/user/Signup";
 import Login from "./component/user/Login";
+import FindIdPwd from "./component/user/FindIdPwd";
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
         <Route path="/resSuccess" element={<OdClassResSuccess />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/find-account" element={<FindIdPwd />} />
       </Routes>
     </Router>
   );
