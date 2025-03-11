@@ -1,5 +1,4 @@
-// 생략된 부분은 기존과 동일합니다.
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "@emotion/styled";
@@ -63,13 +62,28 @@ const ErrorMessage = styled.p`
   font-size: 14px;
 `;
 
+const CheckboxLabel = styled.label`
+  font-size: 14px;
+`;
+
 const Login = () => {
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ email: "", password: "", rememberMe: false });
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const savedUser = JSON.parse(localStorage.getItem("user"));
+        if (savedUser) {
+            navigate("/dashboard");
+        }
+    }, [navigate]);
+
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value, type, checked } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -81,6 +95,9 @@ const Login = () => {
             );
 
             if (user) {
+                if (formData.rememberMe) {
+                    localStorage.setItem("user", JSON.stringify({ email: user.email }));
+                }
                 navigate("/dashboard");
             } else {
                 setError("로그인 실패: 이메일 또는 비밀번호가 틀립니다.");
@@ -90,13 +107,8 @@ const Login = () => {
         }
     };
 
-    const handleSignupClick = () => {
-        navigate("/signup");
-    };
-
-    const handleFindIdPwdClick = () => {
-        navigate("/find-account");
-    };
+    const handleSignupClick = () => navigate("/signup");
+    const handleFindIdPwdClick = () => navigate("/find-account");
 
     return (
         <Container>
@@ -105,6 +117,15 @@ const Login = () => {
             <Form onSubmit={handleSubmit}>
                 <Input type="email" name="email" placeholder="이메일" onChange={handleChange} required />
                 <Input type="password" name="password" placeholder="비밀번호" onChange={handleChange} required />
+                <CheckboxLabel>
+                    <input
+                        type="checkbox"
+                        name="rememberMe"
+                        checked={formData.rememberMe}
+                        onChange={handleChange}
+                    />{" "}
+                    로그인 정보 유지
+                </CheckboxLabel>
                 <Button type="submit">로그인</Button>
                 <SignupButton type="button" onClick={handleSignupClick}>
                     회원가입
