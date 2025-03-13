@@ -42,11 +42,11 @@ const Content = styled.div`
 
 const OdClassDetailView = () => {
   const { id } = useParams();
-  const [ODClassDetailViewData, setODClassDetailViewData] = useState(null);
+  const [ODClassDetailViewData, setODClassDetailViewData] = useState([]);
   useEffect(() => {
-    axios.get(`${process.env.BASE_URL}/ODClassList/selectODClassDetail`, {
+    axios.get(`${process.env.REACT_APP_BASE_URL}/ODClassList/selectODClassDetail`, {
       params : {
-        ODClassId : id // 파라미터 값으로 원데이클래스 고유아이디 보냄
+        ODCClassId : id // 파라미터 값으로 원데이클래스 고유아이디 보냄
       }
     })
     .then((response) => {
@@ -55,7 +55,7 @@ const OdClassDetailView = () => {
     .catch((error) => {
       console.log("데이터 가져오기 실패");
     })
-  })
+  }, [id])
   const [viewportRef, { height: viewportHeight }] = useMeasure();
 
   if (!ODClassDetailViewData) {
@@ -65,7 +65,7 @@ const OdClassDetailView = () => {
   return (
     <Background>
       <Mobile ref={viewportRef}>
-        <Content>
+        <Content className="max-w-3xl mx-auto">
           <div style={{ padding: '20px' }}>
           <img
             src={ODClassDetailViewData.photoUrl}
@@ -74,15 +74,16 @@ const OdClassDetailView = () => {
           />
           <h2>{ODClassDetailViewData.title}</h2>
           <p>예약 가능 인원: 1 ~ {ODClassDetailViewData.totalParticipants}명</p>
-          <p>소요 시간: {ODClassDetailViewData.requiredTime}</p>
-          <p>인당 금액: {ODClassDetailViewData.price}</p>
+          <p>소요 시간: {ODClassDetailViewData.requiredTime}시간</p>
+          <p>인당 금액: {ODClassDetailViewData.price}원</p>
           <p>{ODClassDetailViewData.content}</p>
           </div>
         </Content>
         <BottomSheet viewport={`${viewportHeight}px`}>
           <SelectResInfo 
             minSelectableTime={ODClassDetailViewData.minSelectableTime} 
-            maxSelectableTime={ODClassDetailViewData.maxSelectableTime} 
+            maxSelectableTime={ODClassDetailViewData.maxSelectableTime}
+            requiredTime={ODClassDetailViewData.requiredTime}
             totalParticipants={ODClassDetailViewData.totalParticipants}
             price={ODClassDetailViewData.price} 
           />

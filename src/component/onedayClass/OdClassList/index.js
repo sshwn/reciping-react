@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 
 const OdClassList = () => {
-  const [OdClassData, setODClassData] = useState(null);
+  const [OdClassData, setODClassData] = useState([]);
   useEffect(() => {
-    axios.get(`${process.env.BASE_URL}/ODClassList/selectODClassList`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/ODClassList/selectODClassList`)
     .then((response) => {
       setODClassData(response.data);
     })
@@ -19,7 +19,7 @@ const OdClassList = () => {
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         {OdClassData.map((item) => (
             <li
-                key={item.ODClassId}
+                key={item.odcclassId}
                 style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -38,12 +38,12 @@ const OdClassList = () => {
               }}
             />
             <div style={{textAlign : 'left'}}>
-              <Link to={`/onedayClass/${item.ODClassId}`} style={{ textDecoration: 'none' }}>
+              <Link to={`/onedayClass/${item.odcclassId}`} style={{ textDecoration: 'none' }}>
                 <h3>{item.title}</h3>
               </Link>
               <p>👥 1 ~ {item.totalParticipants}명</p>
-              <p>⏰ {item.requiredTime}</p>
-              <p>💰 {item.price}</p>
+              <p>⏰ {item.requiredTime}시간간</p>
+              <p>💰 {item.price}원</p>
             </div>
           </li>
         ))}
