@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-const BottomSheetContent = ({minSelectableTime, maxSelectableTime, totalParticipants, price}) => {
+const BottomSheetContent = ({minSelectableTime, maxSelectableTime, requiredTime, totalParticipants, price}) => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
