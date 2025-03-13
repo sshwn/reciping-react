@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "@emotion/styled";
+import KakaoLogin from "react-kakao-login";
+
+const KAKAO_CLIENT_ID = "bb064fe3dff4a0458262cf22c2a9686f"; //카카오 JavaScript 키 입력
 
 const Container = styled.div`
   display: flex;
@@ -110,6 +113,18 @@ const Login = () => {
     const handleSignupClick = () => navigate("/signup");
     const handleFindIdPwdClick = () => navigate("/find-account");
 
+    // 카카오 로그인 성공/실패 핸들러 추가
+    const handleKakaoSuccess = (response) => {
+        console.log("카카오 로그인 성공:", response);
+        const { profile } = response;
+        localStorage.setItem("user", JSON.stringify({ email: profile.kakao_account.email }));
+        navigate("/dashboard");
+    };
+
+    const handleKakaoFailure = (error) => {
+        console.error("카카오 로그인 실패:", error);
+    };
+
     return (
         <Container>
             <h2>로그인</h2>
@@ -133,9 +148,22 @@ const Login = () => {
                 <FindIdPwdButton type="button" onClick={handleFindIdPwdClick}>
                     ID/PW 찾기
                 </FindIdPwdButton>
+                <KakaoLogin
+                    token={KAKAO_CLIENT_ID}
+                    onSuccess={handleKakaoSuccess}
+                    onFail={handleKakaoFailure}
+                    onLogout={() => console.log("카카오 로그아웃")}
+                    render={(props) => (
+                        <Button onClick={props.onClick} style={{ backgroundColor: "#FEE500", color: "#3C1E1E" }}>
+                            카카오 로그인
+                        </Button>
+                    )}
+                />
             </Form>
         </Container>
     );
 };
+
+
 
 export default Login;
