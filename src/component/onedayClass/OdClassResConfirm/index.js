@@ -35,7 +35,7 @@ const ConfirmationPage = () => {
   };
 
   return (
-    <Container>
+    <Container className="max-w-3xl mx-auto">
       <InfoMsg1>아래 내용이 맞는지 확인해 주세요</InfoMsg1>
       <SelectDetail>
         <p><Title>베이킹 클래스</Title></p>
