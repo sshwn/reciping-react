@@ -4,7 +4,9 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import KakaoLogin from "react-kakao-login";
 
-const KAKAO_CLIENT_ID = "bb064fe3dff4a0458262cf22c2a9686f"; //카카오 JavaScript 키 입력
+const KAKAO_CLIENT_ID = "bb064fe3dff4a0458262cf22c2a9686f";
+const USER_SERVICE_URL = "http://localhost:8081/api/auth/login";
+const CHECK_USER_URL = "http://localhost:8081/api/auth/check-user";
 
 const Container = styled.div`
   display: flex;
@@ -53,54 +55,47 @@ const SignupButton = styled(Button)`
   }
 `;
 
-const FindIdPwdButton = styled(Button)`
-  background-color: #f0ad4e;
-  &:hover {
-    background-color: #ec971f;
-  }
-`;
-
 const ErrorMessage = styled.p`
   color: red;
   font-size: 14px;
 `;
 
-const CheckboxLabel = styled.label`
-  font-size: 14px;
-`;
-
 const Login = () => {
-    const [formData, setFormData] = useState({ email: "", password: "", rememberMe: false });
+    const [formData, setFormData] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        const savedUser = JSON.parse(localStorage.getItem("user"));
-        if (savedUser) {
-            navigate("/dashboard");
+        try {
+            const savedUser = JSON.parse(localStorage.getItem("user"));
+
+            if (savedUser) {
+                navigate("/dashboard"); //TODO 사용자가 존재하면 대시보드로 이동
+            }
+        } catch (error) {
+            console.error("❌ 로그인 페이지에서 localStorage 파싱 오류:", error);
+            localStorage.removeItem("user"); // 잘못된 데이터 삭제
         }
     }, [navigate]);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]: value,
         }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const res = await axios.get("https://jsonplaceholder.typicode.com/users");
-            const user = res.data.find(
-                (user) => user.email === formData.email && user.username === formData.password
-            );
 
-            if (user) {
-                if (formData.rememberMe) {
-                    localStorage.setItem("user", JSON.stringify({ email: user.email }));
-                }
+        try {
+            // 백엔드에 로그인 요청
+            const res = await axios.post(USER_SERVICE_URL, formData);
+            console.log("✅ 로그인 응답:", res.data);
+
+            if (res.data.success) {
+                localStorage.setItem("user", JSON.stringify(res.data.user)); // 로그인 성공 시 저장
                 navigate("/dashboard");
             } else {
                 setError("로그인 실패: 이메일 또는 비밀번호가 틀립니다.");
@@ -110,19 +105,33 @@ const Login = () => {
         }
     };
 
-    const handleSignupClick = () => navigate("/signup");
-    const handleFindIdPwdClick = () => navigate("/find-account");
-
-    // 카카오 로그인 성공/실패 핸들러 추가
-    const handleKakaoSuccess = (response) => {
-        console.log("카카오 로그인 성공:", response);
-        const { profile } = response;
-        localStorage.setItem("user", JSON.stringify({ email: profile.kakao_account.email }));
-        navigate("/dashboard");
+    const handleSignupClick = () => {
+        console.log("회원가입 버튼 클릭됨");
+        navigate("/signup");
     };
 
-    const handleKakaoFailure = (error) => {
-        console.error("카카오 로그인 실패:", error);
+    const handleKakaoSuccess = async (response) => {
+        console.log("카카오 로그인 성공:", response);
+        const { kakao_account, properties } = response.profile;
+        const userData = {
+            email: kakao_account.email,
+            nickname: properties.nickname,
+            profileImage: properties.profile_image,
+        };
+
+        try {
+            const res = await axios.post(CHECK_USER_URL, { email: userData.email });
+
+            if (res.data.exists) {
+                localStorage.setItem("user", JSON.stringify(userData));
+                navigate("/dashboard");
+            } else {
+                localStorage.setItem("tempUser", JSON.stringify(userData));
+                navigate("/signup");
+            }
+        } catch (error) {
+            console.error("회원 확인 실패:", error);
+        }
     };
 
     return (
@@ -132,27 +141,14 @@ const Login = () => {
             <Form onSubmit={handleSubmit}>
                 <Input type="email" name="email" placeholder="이메일" onChange={handleChange} required />
                 <Input type="password" name="password" placeholder="비밀번호" onChange={handleChange} required />
-                <CheckboxLabel>
-                    <input
-                        type="checkbox"
-                        name="rememberMe"
-                        checked={formData.rememberMe}
-                        onChange={handleChange}
-                    />{" "}
-                    로그인 정보 유지
-                </CheckboxLabel>
                 <Button type="submit">로그인</Button>
                 <SignupButton type="button" onClick={handleSignupClick}>
                     회원가입
                 </SignupButton>
-                <FindIdPwdButton type="button" onClick={handleFindIdPwdClick}>
-                    ID/PW 찾기
-                </FindIdPwdButton>
                 <KakaoLogin
                     token={KAKAO_CLIENT_ID}
                     onSuccess={handleKakaoSuccess}
-                    onFail={handleKakaoFailure}
-                    onLogout={() => console.log("카카오 로그아웃")}
+                    onFail={() => setError("카카오 로그인 실패")}
                     render={(props) => (
                         <Button onClick={props.onClick} style={{ backgroundColor: "#FEE500", color: "#3C1E1E" }}>
                             카카오 로그인
@@ -163,7 +159,5 @@ const Login = () => {
         </Container>
     );
 };
-
-
 
 export default Login;
