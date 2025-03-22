@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 
-const BottomSheetContent = ({minSelectableTime, maxSelectableTime, requiredTime, totalParticipants, price}) => {
+const BottomSheetContent = ({id, minSelectableTime, maxSelectableTime, requiredTime, totalParticipants, price}) => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -22,6 +22,7 @@ const BottomSheetContent = ({minSelectableTime, maxSelectableTime, requiredTime,
     if (selectedDate && selectedTime && selectedPeople) {
       navigate("/confirmation", {
         state: {
+          id,
           selectedDate,
           selectedTime,
           selectedPeople,

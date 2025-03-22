@@ -44,7 +44,7 @@ const OdClassDetailView = () => {
   const { id } = useParams();
   const [ODClassDetailViewData, setODClassDetailViewData] = useState([]);
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/ODClassList/selectODClassDetail`, {
+    axios.get(`${process.env.REACT_APP_BASE_URL}/ODClass/selectODClassDetail`, {
       params : {
         ODCClassId : id // 파라미터 값으로 원데이클래스 고유아이디 보냄
       }
@@ -81,11 +81,12 @@ const OdClassDetailView = () => {
         </Content>
         <BottomSheet viewport={`${viewportHeight}px`}>
           <SelectResInfo 
+            id={id}
             minSelectableTime={ODClassDetailViewData.minSelectableTime} 
             maxSelectableTime={ODClassDetailViewData.maxSelectableTime}
             requiredTime={ODClassDetailViewData.requiredTime}
             totalParticipants={ODClassDetailViewData.totalParticipants}
-            price={ODClassDetailViewData.price} 
+            price={ODClassDetailViewData.price}
           />
         </BottomSheet>
       </Mobile>
