@@ -25,7 +25,6 @@ const ConfirmationPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    debugger;
     const formData = new FormData(event.target); // 폼 데이터 가져오기
     const data = Object.fromEntries(formData.entries()); // 객체로 변환
     data.reserveDate = selectedDate;
@@ -38,7 +37,6 @@ const ConfirmationPage = () => {
     data.ODCClassId = Number(id);
 
     try {
-      console.log(`${process.env.REACT_APP_BASE_URL}/ODClass/saveODClassReservation`);
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/ODClass/saveODClassReservation`, JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
       });

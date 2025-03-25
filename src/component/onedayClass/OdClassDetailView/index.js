@@ -82,9 +82,7 @@ const OdClassDetailView = () => {
         <BottomSheet viewport={`${viewportHeight}px`}>
           <SelectResInfo 
             id={id}
-            minSelectableTime={ODClassDetailViewData.minSelectableTime} 
-            maxSelectableTime={ODClassDetailViewData.maxSelectableTime}
-            requiredTime={ODClassDetailViewData.requiredTime}
+            startTimesArray={ODClassDetailViewData.odcClassTimeMappingList}
             totalParticipants={ODClassDetailViewData.totalParticipants}
             price={ODClassDetailViewData.price}
           />

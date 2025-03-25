@@ -42,7 +42,7 @@ const OdClassList = () => {
                 <h3>{item.title}</h3>
               </Link>
               <p>👥 1 ~ {item.totalParticipants}명</p>
-              <p>⏰ {item.requiredTime}시간</p>
+              <p>⏰ {item.requiredTime}분</p>
               <p>💰 {item.price}원</p>
             </div>
           </li>
