@@ -2,7 +2,7 @@ import './index.css';
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NoteContainer from './component/note/NoteContainer';
+import MemoContainer from './component/memo/memoContainer';
 import OdClassMainContainer from './component/onedayClass/OdClassMainContainer';
 import OdClassDetailView from './component/onedayClass/OdClassDetailView';
 import OdClassResConfirm from './component/onedayClass/OdClassResConfirm';
@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<NoteContainer />} />
+        <Route path="/memo" element={<MemoContainer />} />
         <Route path="/onedayClassMain" element={<OdClassMainContainer />} />
         <Route path="/onedayClass/:id" element={<OdClassDetailView />} />
         <Route path="/confirmation" element={<OdClassResConfirm />} />

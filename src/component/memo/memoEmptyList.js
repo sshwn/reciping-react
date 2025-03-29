@@ -1,10 +1,10 @@
 import React from 'react';
 
-const NoteEmptyList = ({ notes, moveToPurchased, deleteNote }) => {
+const MemoEmptyList = ({ memos, moveToMemo, deleteMemo }) => {
   return (
     <div className="mb-8">
-    <h2 className="text-lg font-semibold mb-4">장보기 목록 ({notes.length})</h2>
-    {notes.length === 0 ? (
+    <h2 className="text-lg font-semibold mb-4">장보기 목록 ({memos.length})</h2>
+    {memos.length === 0 ? (
       <div className="text-center text-gray-500">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ const NoteEmptyList = ({ notes, moveToPurchased, deleteNote }) => {
         <p className="mt-4">모든 재료를 구매 완료했어요!</p>
       </div>
     ) : (
-      notes.map((note, index) => (
+      memos.map((memo, index) => (
         <div
           key={index}
           className="flex justify-between items-center bg-white p-4 rounded-md shadow-md mb-4"
@@ -31,18 +31,18 @@ const NoteEmptyList = ({ notes, moveToPurchased, deleteNote }) => {
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
-              onChange={() => moveToPurchased(index)}
+              onChange={() => moveToMemo({memoId: index, status: 'P'})}
               className="form-checkbox h-5 w-5 rounded-full text-green-500"
             />
             <p
-              onClick={() => moveToPurchased(index)}
+              onClick={() => moveToMemo({memoId: index, status: 'P'})}
               className="cursor-pointer text-gray-800"
             >
-              {note.text}
+              {memo.memoContent}
             </p>
           </div>
           <button
-            onClick={() => deleteNote(index, false)}
+            onClick={() => deleteMemo(index, false)}
             className="text-red-500 hover:text-red-700"
           >
             🗑️
@@ -54,4 +54,4 @@ const NoteEmptyList = ({ notes, moveToPurchased, deleteNote }) => {
   );
 };
 
-export default NoteEmptyList;
+export default MemoEmptyList;
