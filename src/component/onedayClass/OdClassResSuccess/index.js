@@ -12,7 +12,12 @@ const ReservationCompletePage = () => {
   };
 
   const handleGoToMyReservations = () => {
-    navigate("/my-reservations");  // 내 예약 페이지로 이동 (이 경로는 실제로 구현해주어야 합니다)
+    const loginUserId = '홍길동'; // TODO 로그인한 사용자 ID로 바꿔야함함
+    navigate("/myRes", {
+      state: {
+        loginUserId
+      }
+    });  // 내 예약 페이지로 이동
   };
 
   return (
