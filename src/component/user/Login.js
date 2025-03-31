@@ -97,11 +97,9 @@ const Login = () => {
             if (res.data.success) {
                 localStorage.setItem("user", JSON.stringify(res.data.user)); // 로그인 성공 시 저장
                 navigate("/dashboard");
-            } else {
-                setError("로그인 실패: 이메일 또는 비밀번호가 틀립니다.");
             }
         } catch (err) {
-            setError("서버 오류");
+            setError(err.response.data.message);
         }
     };
 
