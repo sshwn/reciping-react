@@ -1,17 +1,17 @@
 import React from 'react';
-import './index.css';
-import NoteEmptyList from '../NoteEmptyList';
+import './memo.css';
+import MemoEmptyList from './memoEmptyList';
 
 
-const NotePurchasedList = ({
-  purchasedNotes,
-  moveToEmpty,
-  deletePurchased,
+const MemoPurchasedList = ({
+  purchasedMemos,
+  moveToMemo,
+  deleteMemo,
 }) => {
   return (
       <div>
-        <h2 className="text-lg font-semibold mb-4">구매완료 목록 ({purchasedNotes.length})</h2>
-        {purchasedNotes.map((note, index) => (
+        <h2 className="text-lg font-semibold mb-4">구매완료 목록 ({purchasedMemos.length})</h2>
+        {purchasedMemos.map((memo, index) => (
           <div
             key={index}
             className="flex justify-between items-center bg-white p-4 rounded-md shadow-md mb-4"
@@ -19,19 +19,19 @@ const NotePurchasedList = ({
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
-                checked={note.checked}
-                onChange={() => moveToEmpty(index)}
+                checked={memo.checked}
+                onChange={() => moveToMemo({memoId: index, status: 'N'})}
                 className="form-checkbox h-5 w-5 rounded-full text-green-500"
               />
               <p
-                onClick={() => moveToEmpty(index)}
+                onClick={() => moveToMemo({memoId: index, status: 'N'})}
                 className="cursor-pointer text-gray-500 line-through"
               >
-                {note.text}
+                {memo.memoContent}
               </p>
             </div>
             <button
-              onClick={() => deletePurchased(index, true)}
+              onClick={() => deleteMemo(index, true)}
               className="text-red-500 hover:text-red-700"
             >
               🗑️
@@ -42,4 +42,4 @@ const NotePurchasedList = ({
   );
 };
   
-  export default NotePurchasedList;
+  export default MemoPurchasedList;

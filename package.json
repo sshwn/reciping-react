@@ -10,6 +10,8 @@
     "axios": "^1.8.2",
     "cra-template": "1.2.0",
     "framer-motion": "^12.4.2",
+    "lucide-react": "^0.483.0",
+    "quill": "^2.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-kakao-login": "^2.1.1",
@@ -17,6 +19,8 @@
     "react-scripts": "^5.0.1",
     "react-use-measure": "^2.1.7",
     "styled-components": "^6.1.15",
+    "suneditor": "^2.47.5",
+    "suneditor-react": "^3.6.1",
     "web-vitals": "^4.2.4"
   },
   "scripts": {

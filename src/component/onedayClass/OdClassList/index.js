@@ -5,7 +5,7 @@ import axios from "axios";
 const OdClassList = () => {
   const [OdClassData, setODClassData] = useState([]);
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/ODClassList/selectODClassList`)
+    axios.get(`${process.env.REACT_APP_BASE_URL}/ODClass/selectODClassList`)
     .then((response) => {
       setODClassData(response.data);
     })
@@ -42,7 +42,7 @@ const OdClassList = () => {
                 <h3>{item.title}</h3>
               </Link>
               <p>👥 1 ~ {item.totalParticipants}명</p>
-              <p>⏰ {item.requiredTime}시간간</p>
+              <p>⏰ {item.requiredTime}분</p>
               <p>💰 {item.price}원</p>
             </div>
           </li>
