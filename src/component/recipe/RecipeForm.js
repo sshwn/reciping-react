@@ -39,7 +39,7 @@ const RecipeForm = () => {
 
           <div>
             <label className="block text-lg font-semibold mb-2">요리 소개</label>
-            <textarea className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400" rows="4" placeholder="요리의 배경이나 특징을 적어주세요." />
+            <textarea className="resize-none w-full h-32 border p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400" rows="4" placeholder="요리의 배경이나 특징을 적어주세요." />
           </div>
 
           <div className="flex items-center gap-4">
@@ -48,7 +48,7 @@ const RecipeForm = () => {
               <textarea
                 value={videoUrl}
                 onChange={handleVideoUrlChange}
-                className="w-full h-[100px] p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+                className="resize-none w-full h-32 border p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
                 placeholder="Youtube, 네이버TV 등 동영상 주소 입력"
               />
             </div>
