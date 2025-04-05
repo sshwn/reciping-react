@@ -41,9 +41,10 @@ const OdClassList = () => {
               <Link to={`/onedayClass/${item.odcclassId}`} style={{ textDecoration: 'none' }}>
                 <h3>{item.title}</h3>
               </Link>
-              <p>👥 1 ~ {item.totalParticipants}명</p>
+              <p>👥 {item.minParticipants} ~ {item.maxParticipants}명</p>
               <p>⏰ {item.requiredTime}분</p>
               <p>💰 {item.price}원</p>
+              <p>🗺️ {item.location} {item.detailLocation}</p>
             </div>
           </li>
         ))}

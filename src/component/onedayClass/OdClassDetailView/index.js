@@ -73,9 +73,10 @@ const OdClassDetailView = () => {
             style={{ width: '100%', height: 'auto', marginBottom: '20px' }}
           />
           <h2>{ODClassDetailViewData.title}</h2>
-          <p>예약 가능 인원: 1 ~ {ODClassDetailViewData.totalParticipants}명</p>
+          <p>예약 가능 인원: {ODClassDetailViewData.minParticipants} ~ {ODClassDetailViewData.maxParticipants}명</p>
           <p>소요 시간: {ODClassDetailViewData.requiredTime}시간</p>
           <p>인당 금액: {ODClassDetailViewData.price}원</p>
+          <p>위치: {ODClassDetailViewData.location} {ODClassDetailViewData.detailLocation}</p>
           <p>{ODClassDetailViewData.content}</p>
           </div>
         </Content>
@@ -83,7 +84,8 @@ const OdClassDetailView = () => {
           <SelectResInfo 
             id={id}
             startTimesArray={ODClassDetailViewData.odcClassTimeMappingList}
-            totalParticipants={ODClassDetailViewData.totalParticipants}
+            minParticipants={ODClassDetailViewData.minParticipants}
+            maxParticipants={ODClassDetailViewData.maxParticipants}
             price={ODClassDetailViewData.price}
           />
         </BottomSheet>
