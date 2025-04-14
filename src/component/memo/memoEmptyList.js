@@ -25,24 +25,24 @@ const MemoEmptyList = ({ memos, moveToMemo, deleteMemo }) => {
     ) : (
       memos.map((memo, index) => (
         <div
-          key={index}
+          key={memo.memoId}
           className="flex justify-between items-center bg-white p-4 rounded-md shadow-md mb-4"
         >
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
-              onChange={() => moveToMemo({memoId: index, status: 'P'})}
+              onChange={() => moveToMemo({memoId: memo.memoId, status: 'P'})}
               className="form-checkbox h-5 w-5 rounded-full text-green-500"
             />
             <p
-              onClick={() => moveToMemo({memoId: index, status: 'P'})}
+              onClick={() => moveToMemo({memoId: memo.memoId, status: 'P'})}
               className="cursor-pointer text-gray-800"
             >
               {memo.memoContent}
             </p>
           </div>
           <button
-            onClick={() => deleteMemo(index, false)}
+            onClick={() => deleteMemo(memo.memoId, false)}
             className="text-red-500 hover:text-red-700"
           >
             🗑️

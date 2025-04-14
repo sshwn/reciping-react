@@ -45,9 +45,9 @@ const MemoContainer = () => {
   // 메모 이동 (체크박스 체크 시 장보기 -> 완료 / 완료 -> 장보기기)
   const moveToMemo = async (memoUpdate) => {
     try {
-        await axios.post(`http://localhost:8000/api/memo-service//moveToMemo`, memoUpdate); // 서버에서 항목 이동 처리
+        await axios.post(`http://localhost:8000/api/memo-service/moveToMemo`, memoUpdate); // 서버에서 항목 이동 처리
         fetchMemos({status: 'N', regUserId: 'hw'}); // 장보기 목록 조회
-//        fetchPurchasedMemos({status: 'P', regUserId: 'hw'}) // 구매완료 목록 조회
+        fetchPurchasedMemos({status: 'P', regUserId: 'hw'}) // 구매완료 목록 조회
     } catch (error) {
       console.error('Failed to move to purchased:', error);
     }
@@ -57,8 +57,10 @@ const MemoContainer = () => {
   const deleteMemo = async (memoId) => {
     try {
       await axios.delete(`http://localhost:8000/api/memo-service/deleteMemo/${memoId}`); // 서버에서 항목 삭제
-      setMemos(memos.filter(n => n.id !== memoId)); // 로컬 목록에서 제거
-      setPurchasedMemos(memos.filter(n => n.id !== memoId)); // 로컬 목록에서 제거
+  //    setMemos(memos.filter(n => n.id !== memoId)); // 로컬 목록에서 제거
+//      setPurchasedMemos(memos.filter(n => n.id !== memoId)); // 로컬 목록에서 제거
+        fetchMemos({status: 'N', regUserId: 'hw'}); // 장보기 목록 조회
+        fetchPurchasedMemos({status: 'P', regUserId: 'hw'}) // 구매완료 목록 조회
     } catch (error) {
       console.error('Failed to delete Memo:', error);
     }
