@@ -12,8 +12,8 @@ import OdClassMyRes from './component/onedayClass/OdClassMyRes';
 import Signup from "./component/user/Signup";
 import Login from "./component/user/Login";
 import FindIdPwd from "./component/user/FindIdPwd";
-import RecipeForm from './component/recipe/RecipeForm';
-import RecipePreview from './component/recipe/RecipePreview';
+import RecipeForm from './component/recipe/form/RecipeForm';
+import RecipePreview from './component/recipe/form/RecipePreview';
 
 function App() {
   return (
@@ -30,8 +30,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/find-account" element={<FindIdPwd />} />
         {/* 레시피 관련 경로 추가 */}
-        <Route path="/recipe/insertRecipe" element={<RecipeForm />} />
-        <Route path="/recipe/preview" element={<RecipePreview />} />
+        <Route path="/recipe/recipeForm" element={<RecipeForm />} />
+        <Route path="/recipe/recipePreview" element={<RecipePreview />} />
       </Routes>
     </Router>
   );
