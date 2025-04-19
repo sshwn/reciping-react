@@ -2,22 +2,11 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 
-const OdClassList = () => {
-  const [OdClassData, setODClassData] = useState([]);
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BASE_URL}/ODClass/selectODClassList`)
-    .then((response) => {
-      setODClassData(response.data);
-    })
-    .catch((error) => {
-      console.log("데이터 가져오기 실패");
-    })
-  }, []); // 처음 한번만 실행하도록 함
-
+const OdClassList = ({classList}) => {
   return (
     <div style={{ padding: '20px' }}>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {OdClassData.map((item) => (
+        {classList.map((item) => (
             <li
                 key={item.odcclassId}
                 style={{
