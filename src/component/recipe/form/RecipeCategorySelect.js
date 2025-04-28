@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const RecipeCategorySelect = () => {
+interface Props {
+    onCategoryChange: (categories: {
+        category1: string;
+        category2: string;
+        category3: string;
+        category4: string;
+    }) => void;
+}
+
+const RecipeCategorySelect = ({ onCategoryChange }: Props) => {
     const [category1, setCategory1] = useState('');
     const [category2, setCategory2] = useState('');
     const [category3, setCategory3] = useState('');
     const [category4, setCategory4] = useState('');
 
-    // 각 select의 onChange 핸들러
+    useEffect(() => {
+        onCategoryChange({ category1, category2, category3, category4 });
+    }, [category1, category2, category3, category4, onCategoryChange]);
+
     const handleCategory1Change = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCategory1(e.target.value);
     };
@@ -26,11 +38,13 @@ const RecipeCategorySelect = () => {
     return (
         <div className="cont_line">
             <p className="cont_tit4">카테고리</p>
+
+            {/* 종류별 */}
             <select
-                name="cok_sq_category_4"
-                id="cok_sq_category_4"
-                value={category4}
-                onChange={handleCategory4Change}
+                name="rcpCategory"
+                id="rcpCategory"
+                value={category1}
+                onChange={handleCategory1Change}
             >
                 <option value="">종류별</option>
                 <option value="63">밑반찬</option>
@@ -52,9 +66,10 @@ const RecipeCategorySelect = () => {
                 <option value="62">기타</option>
             </select>
 
+            {/* 상황별 */}
             <select
-                name="cok_sq_category_2"
-                id="cok_sq_category_2"
+                name="rcpOccasion"
+                id="rcpOccasion"
                 value={category2}
                 onChange={handleCategory2Change}
             >
@@ -75,11 +90,12 @@ const RecipeCategorySelect = () => {
                 <option value="22">기타</option>
             </select>
 
+            {/* 방법별 */}
             <select
-                name="cok_sq_category_1"
-                id="cok_sq_category_1"
-                value={category1}
-                onChange={handleCategory1Change}
+                name="rcpMethod"
+                id="rcpMethod"
+                value={category3}
+                onChange={handleCategory3Change}
             >
                 <option value="">방법별</option>
                 <option value="6">볶음</option>
@@ -98,11 +114,12 @@ const RecipeCategorySelect = () => {
                 <option value="11">기타</option>
             </select>
 
+            {/* 재료별 */}
             <select
-                name="cok_sq_category_3"
-                id="cok_sq_category_3"
-                value={category3}
-                onChange={handleCategory3Change}
+                name="rcpIngredientType"
+                id="rcpIngredientType"
+                value={category4}
+                onChange={handleCategory4Change}
             >
                 <option value="">재료별</option>
                 <option value="70">소고기</option>
@@ -122,6 +139,7 @@ const RecipeCategorySelect = () => {
                 <option value="26">곡류</option>
                 <option value="34">기타</option>
             </select>
+
             <span className="guide" style={{ margin: '-22px 0 0 146px' }}>
                 분류를 바르게 설정해주시면, 이용자들이 쉽게 레시피를 검색할 수 있어요.
             </span>

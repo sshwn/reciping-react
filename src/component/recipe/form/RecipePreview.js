@@ -8,4 +8,3 @@ const RecipePreview = () => {
   };
   
   export default RecipePreview;
-  

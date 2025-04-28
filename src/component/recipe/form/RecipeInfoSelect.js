@@ -1,21 +1,38 @@
 import React, { useState } from 'react';
 
-const RecipeInfoSelect = () => {
+interface Props {
+    onCategoryChange: (categories: {
+        portion: string;
+        time: string;
+        degree: string;
+    }) => void;
+}
+
+const RecipeInfoSelect: React.FC<Props> = ({ onCategoryChange }) => {
     const [portion, setPortion] = useState('');
     const [time, setTime] = useState('');
     const [degree, setDegree] = useState('');
 
     // 각 select의 onChange 핸들러
     const handlePortionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setPortion(e.target.value);
+        const newPortion = e.target.value;
+        setPortion(newPortion);
+        // 상위 컴포넌트로 변경된 값 전달
+        onCategoryChange({ portion: newPortion, time, degree });
     };
 
     const handleTimeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setTime(e.target.value);
+        const newTime = e.target.value;
+        setTime(newTime);
+        // 상위 컴포넌트로 변경된 값 전달
+        onCategoryChange({ portion, time: newTime, degree });
     };
 
     const handleDegreeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setDegree(e.target.value);
+        const newDegree = e.target.value;
+        setDegree(newDegree);
+        // 상위 컴포넌트로 변경된 값 전달
+        onCategoryChange({ portion, time, degree: newDegree });
     };
 
     return (
@@ -23,8 +40,8 @@ const RecipeInfoSelect = () => {
             <p className="cont_tit4">요리정보</p>
             {/*인원*/}
             <select
-                name="cok_portion"
-                id="cok_portion"
+                name="rcpServings"
+                id="rcpServings"
                 value={portion}
                 onChange={handlePortionChange}
             >
@@ -39,8 +56,8 @@ const RecipeInfoSelect = () => {
 
             <span className="pad_l_30">{/*시간*/} </span>
             <select
-                name="cok_time"
-                id="cok_time"
+                name="rcpTime"
+                id="rcpTime"
                 value={time}
                 onChange={handleTimeChange}
             >
@@ -58,8 +75,8 @@ const RecipeInfoSelect = () => {
 
             <span className="pad_l_30">{/*난이도*/} </span>
             <select
-                name="cok_degree"
-                id="cok_degree"
+                name="rcpDifficulty"
+                id="rcpDifficulty"
                 value={degree}
                 onChange={handleDegreeChange}
             >

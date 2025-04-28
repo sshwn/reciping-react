@@ -25,6 +25,17 @@ const RecipeInfo = () => {
         }
     };
 
+    const [recipeInfo, setRecipeInfo] = useState({
+        title: '',
+        intro: '',
+        videoUrl: '',
+        videoThumbnail: 'https://recipe1.ezmember.co.kr/img/pic_none5.gif',
+        mainImage: 'https://recipe1.ezmember.co.kr/img/pic_none4.gif',
+        category: '',
+        // ... 나중에 infoSelect도 추가 가능
+    });
+
+
 
     useEffect(() => {
         const extractYoutubeId = (url) => {
@@ -45,8 +56,6 @@ const RecipeInfo = () => {
         <div className="cont_box pad_l_60">
             <div id="divMainPhotoUpload" className="cont_pic2">
                 <input type="hidden" name="main_photo" id="main_photo" value="" />
-                <input type="hidden" name="new_main_photo" id="new_main_photo" value="" />
-                <input type="hidden" name="del_main_photo" id="del_main_photo" value="" />
 
                 <div style={{ position: 'absolute', left: '-3000px' }}>
                     <input
@@ -75,8 +84,8 @@ const RecipeInfo = () => {
                 <p className="cont_tit4">레시피 제목</p>
                 <input
                     type="text"
-                    name="cok_title"
-                    id="cok_title"
+                    name="rcpTitle"
+                    id="rcpTitle"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="form-control"
@@ -88,8 +97,8 @@ const RecipeInfo = () => {
             <div className="cont_line pad_b_25">
                 <p className="cont_tit4">요리소개</p>
                 <textarea
-                    name="cok_intro"
-                    id="cok_intro"
+                    name="rcpIntro"
+                    id="rcpIntro"
                     className="form-control step_cont"
                     placeholder="이 레시피의 탄생배경을 적어주세요. 예) 남편의 생일을 맞아 소고기 미역국을 끓여봤어요. 어머니로부터 배운 미역국 레시피를 남편의 입맛에 맞게 고안했습니다."
                     style={{ height: '100px', width: '610px', resize: 'none' }}
@@ -107,8 +116,8 @@ const RecipeInfo = () => {
                 <input type="hidden" name="cok_video_src" id="cok_video_src" value="" />
 
                 <textarea
-                    name="cok_video_url"
-                    id="cok_video_url"
+                    name="rcpVideoUrl"
+                    id="rcpVideoUrl"
                     className="form-control step_cont"
                     placeholder="동영상이 있으면 주소를 입력하세요.(Youtube,네이버tvcast,다음tvpot,인스타그램 만 가능) 예)http://youtu.be/lA0Bxo3IZmM"
                     style={{ height: '100px', width: '380px', resize: 'none' }}
@@ -142,7 +151,14 @@ const RecipeInfo = () => {
             </div>
 
             {/* 카테고리 수정 */}
-            <RecipeCategorySelect />
+            <RecipeCategorySelect
+                onCategoryChange={(categories) => {
+                    setRecipeInfo(prev => ({
+                        ...prev,
+                        ...categories
+                    }));
+                }}
+            />
 
             {/* 레시피 정보 */}
             <RecipeInfoSelect />
